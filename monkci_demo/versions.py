@@ -12,9 +12,11 @@ def compare_versions(a: str, b: str) -> int:
     parts_a = a.split(".")
     parts_b = b.split(".")
     for x, y in zip(parts_a, parts_b):
-        if x < y:
+        x_int = int(x)
+        y_int = int(y)
+        if x_int < y_int:
             return -1
-        if x > y:
+        if x_int > y_int:
             return 1
     return 0
 
