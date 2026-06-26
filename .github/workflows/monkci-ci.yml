@@ -1,0 +1,32 @@
+name: monkci-ci
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: monkci-ubuntu-24.04-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install ruff
+      - run: ruff check --isolated monkci_demo
+  typecheck:
+    name: Type check (mypy)
+    runs-on: monkci-ubuntu-24.04-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install mypy
+      - run: mypy --config-file=/dev/null --ignore-missing-imports monkci_demo
+  test:
+    name: Unit tests
+    runs-on: monkci-ubuntu-24.04-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pytest
+      - run: python -m pytest monkci_tests -q -o addopts="" -p no:cacheprovider
