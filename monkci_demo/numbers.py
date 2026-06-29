@@ -7,4 +7,4 @@ def gcd(a: int, b: int) -> int:
     """Greatest common divisor (Euclidean algorithm)."""
     while b:
         a, b = b, a % b
-    return b
+    return a
