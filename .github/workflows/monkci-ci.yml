@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install ruff
-      - run: ruff check --isolated monkci_demo
+      - run: python -m ruff check --isolated monkci_demo
   typecheck:
     name: Type check (mypy)
     runs-on: monkci-ubuntu-latest
@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install mypy
-      - run: mypy --config-file=/dev/null --ignore-missing-imports monkci_demo
+      - run: python -m mypy --config-file=/dev/null --ignore-missing-imports monkci_demo
   test:
     name: Unit tests
     runs-on: monkci-ubuntu-latest
