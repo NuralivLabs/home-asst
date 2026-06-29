@@ -8,4 +8,4 @@ def percent_change(old: float, new: float) -> float:
 
     Example: percent_change(200, 250) -> 25.0  (a 25% increase).
     """
-    return (new - old) / new * 100.0
+    return (new - old) / old * 100.0
