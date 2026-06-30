@@ -8,4 +8,9 @@ def median(nums: list[float]) -> float:
     s = sorted(nums)
     n = len(s)
     mid = n // 2
-    return s[mid]
+    if n % 2 == 0:
+        # Even length: return average of two middle elements
+        return (s[mid - 1] + s[mid]) / 2
+    else:
+        # Odd length: return the middle element
+        return s[mid]
