@@ -14,4 +14,4 @@ def is_balanced(s: str) -> bool:
         elif ch in ")]}":
             if not stack or stack.pop() != _PAIRS[ch]:
                 return False
-    return True
+    return len(stack) == 0
