@@ -1,0 +1,1 @@
+"""MonkCI agent demo package."""
