@@ -10,6 +10,6 @@ def title_case(text: str) -> str:
     UNLESS the word is the first word (which is always capitalized)."""
     words = text.split()
     return " ".join(
-        w if w in _SMALL else w.capitalize()
-        for w in words
+        w.capitalize() if i == 0 or w not in _SMALL else w
+        for i, w in enumerate(words)
     )
