@@ -5,7 +5,7 @@ on:
 jobs:
   lint:
     name: Lint (ruff)
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -15,7 +15,7 @@ jobs:
 
   typecheck:
     name: Type check (mypy)
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -25,7 +25,7 @@ jobs:
 
   no-debug-prints:
     name: No debug prints
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - run: '! grep -R "print(" monkci_demo'
@@ -33,7 +33,7 @@ jobs:
   unit-strings:
     name: Unit tests (strings2)
     needs: [lint, typecheck, no-debug-prints]
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -44,7 +44,7 @@ jobs:
   unit-numbers:
     name: Unit tests (numbers2)
     needs: [lint, typecheck, no-debug-prints]
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -55,7 +55,7 @@ jobs:
   unit-collections:
     name: Unit tests (collections2)
     needs: [lint, typecheck, no-debug-prints]
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -66,7 +66,7 @@ jobs:
   integration:
     name: Integration tests
     needs: [unit-strings, unit-numbers, unit-collections]
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -77,7 +77,7 @@ jobs:
   build:
     name: Build check
     needs: integration
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -87,7 +87,7 @@ jobs:
   smoke-test:
     name: Smoke test
     needs: build
-    runs-on: monkci-ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
