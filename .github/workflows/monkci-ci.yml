@@ -1,0 +1,95 @@
+name: monkci-ci
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install ruff
+      - run: ruff check --isolated monkci_demo
+
+  typecheck:
+    name: Type check (mypy)
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install mypy
+      - run: mypy --config-file=/dev/null --ignore-missing-imports monkci_demo
+
+  no-debug-prints:
+    name: No debug prints
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: '! grep -R "print(" monkci_demo'
+
+  unit-strings:
+    name: Unit tests (strings2)
+    needs: [lint, typecheck, no-debug-prints]
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pytest
+      - run: python -m pytest monkci_tests/test_strings2.py -q -o addopts="" -p no:cacheprovider
+
+  unit-numbers:
+    name: Unit tests (numbers2)
+    needs: [lint, typecheck, no-debug-prints]
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pytest
+      - run: python -m pytest monkci_tests/test_numbers2.py -q -o addopts="" -p no:cacheprovider
+
+  unit-collections:
+    name: Unit tests (collections2)
+    needs: [lint, typecheck, no-debug-prints]
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pytest
+      - run: python -m pytest monkci_tests/test_collections2.py -q -o addopts="" -p no:cacheprovider
+
+  integration:
+    name: Integration tests
+    needs: [unit-strings, unit-numbers, unit-collections]
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pytest
+      - run: python -m pytest monkci_tests/test_integration.py -q -o addopts="" -p no:cacheprovider
+
+  build:
+    name: Build check
+    needs: integration
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python -m py_compile monkci_demo/strings2.py monkci_demo/numbers2.py monkci_demo/collections2.py
+
+  smoke-test:
+    name: Smoke test
+    needs: build
+    runs-on: monkci-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python -c "from monkci_demo.strings2 import word_count; from monkci_demo.numbers2 import is_prime; from monkci_demo.collections2 import unique_sorted; print('ok')"
