@@ -27,7 +27,7 @@ jobs:
   init:
     name: Initialize build
     if: github.repository_owner == 'home-assistant'
-    runs-on: ubuntu-latest
+    runs-on: monkci-ubuntu-24.04-2
     permissions:
       contents: read # To check out the repository
     outputs:
