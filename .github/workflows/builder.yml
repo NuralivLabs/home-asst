@@ -27,7 +27,7 @@ jobs:
   init:
     name: Initialize build
     if: github.repository_owner == 'home-assistant'
-    runs-on: ubuntu-latest
+    runs-on: monkci-ubuntu-latest
     permissions:
       contents: read # To check out the repository
     outputs:
@@ -287,7 +287,7 @@ jobs:
     environment: ${{ needs.init.outputs.channel }}
     if: github.repository_owner == 'home-assistant'
     needs: ["init", "build_machine"]
-    runs-on: ubuntu-latest
+    runs-on: monkci-ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -327,7 +327,7 @@ jobs:
     environment: ${{ needs.init.outputs.channel }}
     if: github.repository_owner == 'home-assistant'
     needs: ["init", "build_base"]
-    runs-on: ubuntu-latest
+    runs-on: monkci-ubuntu-latest
     permissions:
       contents: read # To check out the repository
       packages: write # To push to GHCR
@@ -462,7 +462,7 @@ jobs:
     name: Build PyPi package
     environment: ${{ needs.init.outputs.channel }}
     needs: ["init", "build_base"]
-    runs-on: ubuntu-latest
+    runs-on: monkci-ubuntu-latest
     permissions:
       contents: read # To check out the repository
       id-token: write # For PyPI trusted publishing
@@ -503,7 +503,7 @@ jobs:
 
   hassfest-image:
     name: Build and test hassfest image
-    runs-on: ubuntu-latest
+    runs-on: monkci-ubuntu-latest
     permissions:
       contents: read # To check out the repository
       packages: write # To push to GHCR
