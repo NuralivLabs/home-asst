@@ -11,4 +11,4 @@ def gcd(a: int, b: int) -> int:
 
 def lcm(a: int, b: int) -> int:
     """Return the least common multiple of a and b."""
-    return a * b // gcd(a, a)
+    return a * b // gcd(a, b)
