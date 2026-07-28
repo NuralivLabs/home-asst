@@ -11,6 +11,6 @@ def letter_grade(score: int) -> str:
         return "B"
     if score >= 70:
         return "C"
-    if score > 60:
+    if score >= 60:
         return "D"
     return "F"
