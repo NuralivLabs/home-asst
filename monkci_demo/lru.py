@@ -15,6 +15,7 @@ class LRUCache:
     def get(self, key: str) -> int | None:
         if key not in self._data:
             return None
+        self._data.move_to_end(key)
         return self._data[key]
 
     def put(self, key: str, value: int) -> None:
